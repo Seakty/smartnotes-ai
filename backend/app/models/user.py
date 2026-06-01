@@ -3,7 +3,7 @@ from datetime import datetime
 
 from sqlalchemy import Boolean, String, DateTime
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
@@ -24,3 +24,5 @@ class User(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False
     )
+
+    notes = relationship("Note", back_populates="user", cascade="all, delete-orphan")
