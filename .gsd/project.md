@@ -86,7 +86,7 @@ smartnotes-ai/
 ```
 
 ## Current phase
-> Phase 2 — Notes CRUD API (in progress)
+> Phase 3 — AI Integration (in progress)
 
 ## Phases overview
 
@@ -94,8 +94,8 @@ smartnotes-ai/
 | ----- | ---------------------------------------- | -------------- |
 | 0     | GSD Setup & context files                | ✅ Done  |
 | 1     | Backend foundation (FastAPI + DB + Auth) | ✅ Done  |
-| 2     | Notes CRUD API                           | 🔄 In progress |
-| 3     | AI integration (Claude API)              | ⏳ Not started |
+| 2     | Notes CRUD API                           | ✅ Done |
+| 3     | AI integration (Claude API)              | 🔄 In progress |
 | 4     | Frontend (React)                         | ⏳ Not started |
 | 5     | Polish & Deploy                          | ⏳ Not started |
 

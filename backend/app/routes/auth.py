@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.config import settings
 from app.database import get_db
@@ -28,15 +29,25 @@ def set_auth_cookie(response: Response, token: str):
     )
 
 
+security = HTTPBearer(auto_error=False)
+
 async def get_current_user(
     request: Request,
     db: AsyncSession = Depends(get_db),
+    auth_header: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> User:
-    token = request.cookies.get("access_token")
-    if not token:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    return await auth_service.get_current_user(db, token)
+    token = auth_header.credentials if auth_header else None
 
+    if not token:
+        token = request.cookies.get("access_token")
+        
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Not authenticated"
+        )
+        
+    return await auth_service.get_current_user(db, token)
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(
